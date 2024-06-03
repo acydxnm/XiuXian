@@ -6,8 +6,18 @@ const webpackBaseConfig = require('./webpack.base.config.js');
 const fs = require('fs');
 
 fs.open('./src/config/env.js', 'w', function(err, fd) {
+    if (err) {
+        console.error('Failed to open file', err);
+        return;
+    }
     const buf = 'export default "development";';
-    fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
+    fs.write(fd, buf, function(err, written, buffer) {
+        if (err) {
+            console.error('Failed to write to file', err);
+        } else {
+            console.log('File written successfully');
+        }
+    });
 });
 
 module.exports = merge(webpackBaseConfig, {
